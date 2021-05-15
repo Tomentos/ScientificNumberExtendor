@@ -72,8 +72,13 @@ namespace ScientificNumberExtendor
         // Result Calculation Function
         private void calculation()
         {
-            string[] split = dec.ToString().Split(seperator);
-            int length = split[1].Length;
+            string[] split = new string[2];
+            int length = 0;
+
+            if (dec.ToString().Contains(seperator)) {
+                split = dec.ToString().Split(seperator);
+                length = split[1].Length;
+            }   
 
             // When the multiplicator is zero, the result is automatically made turned to 1
             if (mul == 0)
@@ -101,7 +106,7 @@ namespace ScientificNumberExtendor
                 for (int i = 0; i != zeroesAmount; i++)
                     zeroes += "0";
 
-                res = (split[0] + split[1] + zeroes);
+                res = (dec.ToString().Replace(seperator.ToString(), "") + zeroes);
             }
 
             Output.Text = res;
