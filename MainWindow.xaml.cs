@@ -83,7 +83,7 @@ namespace ScientificNumberExtendor
             // When the multiplicator is zero, the result is automatically made turned to 1
             if (mul == 0)
             {
-                res = "1";
+                res = dec.ToString();
             }
 
             // When the amount of decimal numbers are higher than the multiplicator this calculation is executed
@@ -92,7 +92,7 @@ namespace ScientificNumberExtendor
                 int difference = length - mul;
                 int seperationLength = split[1].Length - difference;
                 string pre = split[1].Remove(seperationLength);
-                string after = split[1].Remove(1, seperationLength);
+                string after = split[1].Remove(0, seperationLength);
 
                 res = (split[0] + pre + seperator + after);
             }
