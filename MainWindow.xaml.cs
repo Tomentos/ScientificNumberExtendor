@@ -20,7 +20,7 @@ namespace ScientificNumberExtendor
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Variable definition
+        // Global Variable definition
         private char seperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
         private string res;
         private float dec;
@@ -30,6 +30,8 @@ namespace ScientificNumberExtendor
         public MainWindow()
         {
             InitializeComponent();
+
+            // Setting up the default calculation at startup
             Decimal_Input.Text = ("3" + seperator + "14");
             Multiplicator_Input.Text = "0";
             calculation();
@@ -42,6 +44,22 @@ namespace ScientificNumberExtendor
             try
             {
                 dec = float.Parse(Decimal_Input.Text);
+
+                if (dec >= 10)
+                {
+                    string[] oldDec;
+                    string[] newDec = new string[2];
+
+                    if (dec.ToString().Contains(seperator))
+                    {
+                        oldDec = new string[2];
+                        oldDec = dec.ToString().Split(seperator);
+                    }
+
+
+
+                }
+
                 calculation();
             }
 
@@ -72,15 +90,17 @@ namespace ScientificNumberExtendor
         // Result Calculation Function
         private void calculation()
         {
+            // Defining variables used throughout the calculation
             string[] split = new string[2];
             int length = 0;
 
+            // Additional variables in case the decimal input contans a seperator
             if (dec.ToString().Contains(seperator)) {
                 split = dec.ToString().Split(seperator);
                 length = split[1].Length;
             }   
 
-            // When the multiplicator is zero, the result is automatically made turned to 1
+            // When the multiplicator is zero, the result is automatically turned into the decimal input
             if (mul == 0)
             {
                 res = dec.ToString();
@@ -89,10 +109,9 @@ namespace ScientificNumberExtendor
             // When the amount of decimal numbers are higher than the multiplicator this calculation is executed
             else if (length > mul)
             {
-                int difference = length - mul;
-                int seperationLength = split[1].Length - difference;
-                string pre = split[1].Remove(seperationLength);
-                string after = split[1].Remove(0, seperationLength);
+                int difference = split[1].Length - (length - mul);
+                string pre = split[1].Remove(difference);
+                string after = split[1].Remove(0, difference);
 
                 res = (split[0] + pre + seperator + after);
             }
@@ -109,6 +128,7 @@ namespace ScientificNumberExtendor
                 res = (dec.ToString().Replace(seperator.ToString(), "") + zeroes);
             }
 
+            // Write the Output and return the function
             Output.Text = res;
             return;
         }
