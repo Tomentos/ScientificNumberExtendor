@@ -129,6 +129,21 @@ namespace ScientificNumberExtendor
                 res = dec.ToString();
             }
 
+            // When the multiplicator is negative, instead of adding zeroes at the end, zeroes will be added at the start, as it should be
+            else if (mul < 0)
+            {
+                string after = split[0] + split[1];
+                mul = mul + split[0].Length;
+
+                string zeroes = "";
+                for (int i = 0; i != mul; i--)
+                {
+                    zeroes += "0";
+                }
+
+                res = (zeroes + seperator + after);
+            }
+
             // When the amount of decimal numbers are higher than the multiplicator this calculation is executed
             else if (length > mul)
             {
@@ -140,7 +155,7 @@ namespace ScientificNumberExtendor
             }
             
             // When the multiplicator is higher than the amount of decimal numbers, this calculation is executed
-            else
+            else if (length < mul)
             {
                 int zeroesAmount = mul - length;
 
